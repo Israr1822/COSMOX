@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos - Your Gateway to Space</title>
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes neon-glow {
+            0%, 100% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple); }
+            50% { text-shadow: 0 0 30px var(--neon-cyan), 0 0 60px var(--cosmic-purple); }
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 25px var(--neon-cyan); }
+            50% { box-shadow: 0 0 40px var(--neon-cyan), 0 0 60px rgba(0, 247, 255, 0.6); }
+        }
+
+        :root {
+            --deep-space: #0a0a1a;
+            --cosmic-purple: #5d00ff;
+            --neon-cyan: #00f7ff;
+            --stellar-blue: #0077ff;
+            --galaxy-pink: #ff00cc;
+            --clean-white: #ffffff;
+            --glass-dark: rgba(10, 10, 26, 0.85);
+            --glass-light: rgba(29, 78, 216, 0.15);
+            --neon-glow: rgba(0, 247, 255, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--clean-white);
+            overflow-x: hidden;
+        }
+
+        /* Background Image Container */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to bottom, rgba(10, 10, 26, 0.85), rgba(93, 0, 255, 0.15)),
+                url('https://images.unsplash.com/photo-1446776877081-d282a0f896e2?q=80&w=1172&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+        }
+
+        .nav-layout {
+            max-width: 1280px; 
+            margin: 0 auto;
+            padding: 1rem; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: var(--glass-dark);
+            backdrop-filter: blur(15px);
+            border-bottom-left-radius: 1.5rem; 
+            border-bottom-right-radius: 1.5rem; 
+            box-shadow: 0 10px 30px rgba(93, 0, 255, 0.3),
+                        0 0 50px var(--neon-glow);
+            border: 1px solid var(--neon-glow);
+        }
+        
+        .logo {
+            margin-bottom: 1rem; 
+            font-size: 2.5rem; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            letter-spacing: 0.15em;
+            color: transparent; 
+            background: linear-gradient(135deg, var(--neon-cyan), var(--galaxy-pink));
+            -webkit-background-clip: text; 
+            background-clip: text;
+            text-decoration: none;
+            text-shadow: 0 0 30px var(--neon-glow);
+        }
+
+        .tagline {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            gap: 0.5rem; 
+            padding-bottom: 0.5rem; 
+        }
+        
+        .link-item { 
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; 
+            transition: all 0.3s ease-in-out; 
+            text-decoration: none;
+            color: var(--clean-white);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-glow);
+            backdrop-filter: blur(5px);
+        }
+
+        .home-link { 
+            color: var(--neon-cyan); 
+            font-weight: 700; 
+            background: rgba(0, 247, 255, 0.1);
+        }
+
+        .link-item:hover { 
+            background-color: rgba(0, 247, 255, 0.2); 
+            box-shadow: 0 0 20px var(--neon-cyan);
+            transform: translateY(-2px);
+            color: var(--neon-cyan);
+        }
+        
+        /* Hero Section Styling */
+        .hero-container {
+            margin: 4rem auto;
+            max-width: 1024px;
+            padding: 0 1rem;
+        }
+
+        .hero-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-text {
+            flex: 1 1 100%;
+            max-width: 900px;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.85), rgba(93, 0, 255, 0.2));
+            border-radius: 1.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                        0 0 60px var(--neon-glow),
+                        inset 0 0 60px rgba(93, 0, 255, 0.1);
+            border: 2px solid var(--neon-glow);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-text h1 {
+            font-size: 2.5rem; /* Smaller as requested */
+            color: var(--neon-cyan);
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple);
+            animation: neon-glow 3s ease-in-out infinite;
+            text-align: center;
+        }
+        
+        .hero-text p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--stellar-blue));
+            color: var(--deep-space);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px var(--neon-cyan);
+            animation: pulse 2s ease-in-out infinite;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px var(--neon-cyan), 0 0 80px rgba(0, 247, 255, 0.6);
+        }
+
+        /* Feature Section */
+        .features-section {
+            padding: 4rem 0;
+            max-width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .features-section h2 {
+            font-size: 2.5rem;
+            color: var(--clean-white);
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple);
+            animation: neon-glow 3s ease-in-out infinite;
+        }
+
+        .marquee-wrapper {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            padding: 1rem 0;
+        }
+
+        .feature-grid {
+            display: flex;
+            gap: 2rem;
+            animation: marquee 40s linear infinite;
+            width: max-content;
+            padding: 0 2rem;
+        }
+
+        .marquee-wrapper:hover .feature-grid {
+            animation-play-state: paused;
+        }
+
+        .feature-card {
+            flex: 0 0 350px;
+            padding: 2.5rem 2rem;
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.9), rgba(93, 0, 255, 0.25));
+            border: 2px solid var(--neon-glow);
+            border-radius: 1rem;
+            box-shadow: 0 0 30px rgba(93, 0, 255, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+            backdrop-filter: blur(15px);
+        }
+        
+        .feature-card::before {
+            content: '✦';
+            display: block;
+            font-size: 3rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--cosmic-purple);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 0 50px var(--neon-cyan), 0 0 80px rgba(93, 0, 255, 0.4);
+            border-color: var(--galaxy-pink);
+        }
+
+        .feature-card h3 {
+            color: var(--neon-cyan);
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .feature-card p {
+            line-height: 1.6;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--glass-dark);
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            color: var(--neon-cyan);
+            font-size: 0.875rem;
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--neon-glow);
+            box-shadow: 0 -10px 30px rgba(93, 0, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-text {
+                padding: 2rem;
+            }
+
+            .features-section h2 {
+                font-size: 2rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 0.9rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .link-item {
+                width: 200px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Image -->
+    <div class="background-container">
+        <div class="background-image"></div>
+    </div>
+
+    <header class="header"> 
+        <nav class="nav-layout">
+            
+            <a href="index.html" class="logo">
+                Cosmos
+            </a>
+            <p class="tagline">Your gateway to space</p>
+
+            <div class="nav-links">
+                <a href="main.html" class="link-item home-link">Home</a>
+                <a href="booking.html" class="link-item">Booking & Trip Planning</a>
+                <a href="destinations.html" class="link-item">Destinations</a>
+                <a href="training.html" class="link-item">Astronaut Training Information</a>
+                <a href="safety.html" class="link-item">Safety Regulations</a>
+                <a href="support.html" class="link-item">Customer Support</a>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="hero-container">
+            <div class="hero-layout">
+                <div class="hero-text">
+                    <h1>Welcome to COSMOS</h1>
+                    <p>COSMOS is a next-generation space tourism company dedicated to making space travel safe, accessible, and unforgettable. Our expert aerospace team and cutting-edge technology are built around a single vision: to take humanity beyond the horizon and open the universe to everyone.</p>
+                    <p>Whether you dream of floating in zero gravity or seeing Earth from orbit, we turn your cosmic ambitions into reality. Start your adventure into the universe with COSMOS.</p>
+                    <div style="text-align: center;">
+                        <a href="booking.html" class="cta-button">Book Your Flight Today</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="features-section">
+            <h2>Why Choose COSMOS?</h2>
+            <div class="marquee-wrapper">
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>Cutting-Edge Technology</h3>
+                        <p>Travel aboard our proprietary, zero-emissions Orion-class vehicles, featuring magnetic shielding and state-of-the-art navigation systems for unparalleled safety.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Unrivaled Safety Record</h3>
+                        <p>Our safety protocols exceed global standards. Every flight is overseen by veteran astronauts and mission control specialists 24/7.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Expert Astronaut Crew</h3>
+                        <p>Every mission is guided by a crew of experienced pilots, medical professionals, and astrophysicists dedicated to your journey.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Fully Immersive Training</h3>
+                        <p>Prepare for your trip with our industry-leading, two-week training program designed to make every passenger comfortable and confident.</p>
+                    </div>
+                    <!-- Duplicate cards for seamless loop -->
+                    <div class="feature-card">
+                        <h3>Cutting-Edge Technology</h3>
+                        <p>Travel aboard our proprietary, zero-emissions Orion-class vehicles, featuring magnetic shielding and state-of-the-art navigation systems for unparalleled safety.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Unrivaled Safety Record</h3>
+                        <p>Our safety protocols exceed global standards. Every flight is overseen by veteran astronauts and mission control specialists 24/7.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Expert Astronaut Crew</h3>
+                        <p>Every mission is guided by a crew of experienced pilots, medical professionals, and astrophysicists dedicated to your journey.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Fully Immersive Training</h3>
+                        <p>Prepare for your trip with our industry-leading, two-week training program designed to make every passenger comfortable and confident.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        &copy; 2025 COSMOS Space Tourism Company. Your Gateway to Space.
+    </footer>
+
+</body>
+</html>

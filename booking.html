@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking & Trip Planning - COSMOS</title>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes neon-glow {
+            0%, 100% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple); }
+            50% { text-shadow: 0 0 30px var(--neon-cyan), 0 0 60px var(--cosmic-purple); }
+        }
+        @keyframes card-hover {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 25px var(--neon-cyan); }
+            50% { box-shadow: 0 0 40px var(--neon-cyan), 0 0 60px rgba(0, 247, 255, 0.6); }
+        }
+
+        :root {
+            --deep-space: #0a0a1a;
+            --cosmic-purple: #5d00ff;
+            --neon-cyan: #00f7ff;
+            --stellar-blue: #0077ff;
+            --galaxy-pink: #ff00cc;
+            --clean-white: #ffffff;
+            --glass-dark: rgba(10, 10, 26, 0.85);
+            --neon-glow: rgba(0, 247, 255, 0.3);
+            --card-bg: rgba(10, 10, 26, 0.75);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--clean-white);
+            overflow-x: hidden;
+        }
+
+        /* Background Image Container */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to bottom, rgba(10, 10, 26, 0.85), rgba(93, 0, 255, 0.15)),
+                url('https://images.unsplash.com/photo-1446776877081-d282a0f896e2?q=80&w=1172&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+        }
+
+        .nav-layout {
+            max-width: 1280px; 
+            margin: 0 auto;
+            padding: 1rem; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: var(--glass-dark);
+            backdrop-filter: blur(15px); 
+            border-bottom-left-radius: 1.5rem; 
+            border-bottom-right-radius: 1.5rem; 
+            box-shadow: 0 10px 30px rgba(93, 0, 255, 0.3),
+                        0 0 50px var(--neon-glow);
+            border: 1px solid var(--neon-glow);
+        }
+        
+        .logo {
+            margin-bottom: 1rem; 
+            font-size: 2.5rem; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            letter-spacing: 0.15em;
+            color: transparent; 
+            background: linear-gradient(135deg, var(--neon-cyan), var(--galaxy-pink));
+            -webkit-background-clip: text; 
+            background-clip: text;
+            text-decoration: none;
+            text-shadow: 0 0 30px var(--neon-glow);
+        }
+
+        .tagline {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            gap: 0.5rem; 
+            padding-bottom: 0.5rem; 
+        }
+        
+        .link-item { 
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; 
+            transition: all 0.3s ease-in-out; 
+            text-decoration: none;
+            color: var(--clean-white);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-glow);
+            backdrop-filter: blur(5px);
+        }
+
+        .booking-link { 
+            color: var(--neon-cyan); 
+            font-weight: 700; 
+            background: rgba(0, 247, 255, 0.1);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .link-item:hover { 
+            background-color: rgba(0, 247, 255, 0.2); 
+            box-shadow: 0 0 20px var(--neon-cyan);
+            transform: translateY(-2px);
+            color: var(--neon-cyan);
+        }
+
+        /* Page Content */
+        .section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 3rem;
+            background: linear-gradient(135deg, var(--card-bg), rgba(93, 0, 255, 0.15));
+            border-radius: 1.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                        0 0 60px var(--neon-glow),
+                        inset 0 0 60px rgba(93, 0, 255, 0.1);
+            border: 2px solid var(--neon-glow);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .section h1, .section h2 {
+            color: var(--neon-cyan);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple);
+            animation: neon-glow 3s ease-in-out infinite;
+        }
+
+        .top-head {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .top-head h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .intro-text {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Module Styles */
+        .module {
+            margin: 3rem 0;
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.6), rgba(93, 0, 255, 0.1));
+            border-radius: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--neon-glow);
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .module:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .module:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 247, 255, 0.3),
+                        0 0 40px var(--neon-glow);
+            border-color: var(--galaxy-pink);
+        }
+
+        .module img {
+            min-width: 300px;
+            height: 200px;
+            border-radius: 1rem;
+            object-fit: cover;
+            box-shadow: 0 0 25px var(--neon-glow);
+            border: 2px solid var(--neon-cyan);
+            transition: all 0.4s ease;
+        }
+
+        .module:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px var(--galaxy-pink);
+        }
+
+        .module-content {
+            flex: 1;
+        }
+
+        .module h2 {
+            text-align: left;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .module:nth-child(even) h2 {
+            text-align: right;
+        }
+
+        .module p {
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.05rem;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            margin: 2rem auto 1rem;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--stellar-blue));
+            color: var(--deep-space);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px var(--neon-cyan);
+            animation: pulse 2s ease-in-out infinite;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px var(--neon-cyan), 0 0 80px rgba(0, 247, 255, 0.6);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--glass-dark);
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            color: var(--neon-cyan);
+            font-size: 0.875rem;
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--neon-glow);
+            box-shadow: 0 -10px 30px rgba(93, 0, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .module, .module:nth-child(even) {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+
+            .module img {
+                width: 100%;
+                min-width: unset;
+                max-width: 400px;
+                height: 180px;
+            }
+
+            .module h2 {
+                text-align: center;
+            }
+
+            .module:nth-child(even) h2 {
+                text-align: center;
+            }
+
+            .section {
+                padding: 1.5rem;
+                margin: 2rem 1rem;
+            }
+
+            .top-head h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .link-item {
+                width: 200px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Background Image -->
+<div class="background-container">
+    <div class="background-image"></div>
+</div>
+
+<header class="header"> 
+    <nav class="nav-layout">
+        <a href="main.html" class="logo">Cosmos</a>
+        <p class="tagline">Your gateway to space</p>
+
+        <div class="nav-links">
+            <a href="main.html" class="link-item">Home</a>
+            <a href="booking.html" class="link-item booking-link">Booking & Trip Planning</a> 
+            <a href="destinations.html" class="link-item">Destinations</a>
+            <a href="training.html" class="link-item">Astronaut Training Information</a>
+            <a href="safety.html" class="link-item">Safety Regulations</a>
+            <a href="support.html" class="link-item">Customer Support</a>
+        </div>
+    </nav>
+</header>
+
+<div class="section">
+    <div class="top-head">
+        <h1>Booking & Trip Planning</h1>
+    </div>
+    
+    <p class="intro-text">
+        Here you can book your COSMOS space journey with ease.  
+        Explore launch dates, check live seat availability, review flexible payment plans,  
+        and access your digital boarding pass—all through our smart, user-friendly system.  
+        Plan your entire trip in one place and get ready for your journey beyond Earth.
+    </p>
+
+    <div class="module">
+        <img src="https://plus.unsplash.com/premium_photo-1664303914535-8dfcec4bb09e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Online Booking System">
+        <div class="module-content">
+            <h2>Online Booking System</h2>
+            <p>
+                Book your COSMOS mission through Skyscanner, Kayak, Expedia, or our own space-travel
+                portals CosmoFinder and OrbitFare. Our seamless booking experience guides you through
+                every step of your cosmic journey.
+            </p>
+        </div>
+    </div>
+
+    <div class="module">
+        <img src="https://images.unsplash.com/photo-1579388654549-1f4e8c79b5a4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Launch Calendar">
+        <div class="module-content">
+            <h2>Launch Date Calendar</h2>
+            <p>
+                Check mission schedules on the COSMOS LaunchView Calendar, updated live with available
+                dates, weather-safe windows, and special flights. Never miss an opportunity to reach
+                the stars.
+            </p>
+        </div>
+    </div>
+
+    <div class="module">
+        <img src="https://images.unsplash.com/photo-1610935089822-1371c4769ebf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8c2VhdCUyMGF2YWlsYWJpbGl5JTIwaW4lMjBzcGFjZXxlbnwwfHwwfHx8MA%3D%3D" alt="Live Seat Availability">
+        <div class="module-content">
+            <h2>Live Seat Availability</h2>
+            <p>
+                View real-time seat maps using our SeatTrack Live System, showing open, reserved, and
+                premium-view seats for every spacecraft. Choose your perfect vantage point among the stars.
+            </p>
+        </div>
+    </div>
+
+    <div class="module">
+        <img src="https://images.unsplash.com/photo-1764231467860-aaa2a307ec56?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGF5bWVudCUyMHBsYW5zfGVufDB8fDB8fHww" alt="Payment Plans">
+        <div class="module-content">
+            <h2>Payment Plans</h2>
+            <p>
+                Explore flexible options on the COSMOS PayFlex Portal, including full payment, monthly
+                installments, and secure online checkout. Make your space journey financially accessible.
+            </p>
+        </div>
+    </div>
+
+    <div class="module">
+        <img src="https://images.unsplash.com/photo-1649256308437-e93443143e3a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZGlkaXRhbCUyMGJvYXJkaW5nJTIwcGFzc2VzJTIwZm9yJTIwc3BhY2V8ZW58MHx8MHx8fDA%3D" alt="Digital Boarding Passes">
+        <div class="module-content">
+            <h2>Digital Boarding Passes</h2>
+            <p>
+                Access your digital pass instantly through the CosmoPass App, including launch time,
+                cabin details, and your QR security code. Your ticket to the stars is always at your fingertips.
+            </p>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <a href="#book-now" class="cta-button">Start Your Booking Journey</a>
+    </div>
+</div>
+
+<footer class="footer">
+    &copy; 2025 COSMOS Space Tourism Company. Your Gateway to Space.
+</footer>
+
+</body>
+</html>

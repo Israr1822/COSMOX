@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety & Regulations - COSMOS</title>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes neon-glow {
+            0%, 100% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple); }
+            50% { text-shadow: 0 0 30px var(--neon-cyan), 0 0 60px var(--cosmic-purple); }
+        }
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px var(--neon-cyan),
+                           0 0 40px rgba(0, 247, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 40px var(--neon-cyan),
+                           0 0 80px rgba(0, 247, 255, 0.6);
+            }
+        }
+        @keyframes shield {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes security-scan {
+            0% { background-position: -100% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        :root {
+            --deep-space: #0a0a1a;
+            --cosmic-purple: #5d00ff;
+            --neon-cyan: #00f7ff;
+            --stellar-blue: #0077ff;
+            --galaxy-pink: #ff00cc;
+            --safety-green: #00ff88;
+            --clean-white: #ffffff;
+            --glass-dark: rgba(10, 10, 26, 0.85);
+            --neon-glow: rgba(0, 247, 255, 0.3);
+            --card-bg: rgba(10, 10, 26, 0.75);
+            --shield-blue: #0088ff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--clean-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Image Container */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to bottom, rgba(10, 10, 26, 0.85), rgba(93, 0, 255, 0.15)),
+                url('https://images.unsplash.com/photo-1446776877081-d282a0f896e2?q=80&w=1172&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+        }
+
+        .nav-layout {
+            max-width: 1280px; 
+            margin: 0 auto;
+            padding: 1rem; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: var(--glass-dark);
+            backdrop-filter: blur(15px); 
+            border-bottom-left-radius: 1.5rem; 
+            border-bottom-right-radius: 1.5rem; 
+            box-shadow: 0 10px 30px rgba(93, 0, 255, 0.3),
+                        0 0 50px var(--neon-glow);
+            border: 1px solid var(--neon-glow);
+        }
+        
+        .logo {
+            margin-bottom: 1rem; 
+            font-size: 2.5rem; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            letter-spacing: 0.15em;
+            color: transparent; 
+            background: linear-gradient(135deg, var(--neon-cyan), var(--galaxy-pink));
+            -webkit-background-clip: text; 
+            background-clip: text;
+            text-decoration: none;
+            text-shadow: 0 0 30px var(--neon-glow);
+        }
+
+        .tagline {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            gap: 0.5rem; 
+            padding-bottom: 0.5rem; 
+        }
+        
+        .link-item { 
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; 
+            transition: all 0.3s ease-in-out; 
+            text-decoration: none;
+            color: var(--clean-white);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-glow);
+            backdrop-filter: blur(5px);
+        }
+
+        .safety-link { 
+            color: var(--safety-green); 
+            font-weight: 700; 
+            background: rgba(0, 247, 255, 0.1);
+            border-color: var(--safety-green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .link-item:hover { 
+            background-color: rgba(0, 247, 255, 0.2); 
+            box-shadow: 0 0 20px var(--neon-cyan);
+            transform: translateY(-2px);
+            color: var(--neon-cyan);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.9), rgba(0, 136, 255, 0.2));
+            padding: 3rem 2rem;
+            border-radius: 1.5rem;
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--shield-blue);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                        0 0 60px rgba(0, 136, 255, 0.3),
+                        inset 0 0 60px rgba(0, 136, 255, 0.1);
+            animation: float 8s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(0, 136, 255, 0.1) 50%,
+                transparent 100%
+            );
+            animation: security-scan 3s linear infinite;
+        }
+
+        .page-intro h1 {
+            color: var(--safety-green);
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px var(--safety-green), 0 0 40px var(--shield-blue);
+            animation: neon-glow 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .page-intro p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+            position: relative;
+        }
+
+        /* Safety Grid */
+        .safety-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Safety Card */
+        .safety-card {
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.8), rgba(0, 136, 255, 0.15));
+            border: 2px solid var(--shield-blue);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-height: 320px;
+        }
+
+        .safety-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--shield-blue), var(--safety-green));
+        }
+
+        .safety-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--safety-green);
+            box-shadow: 0 15px 40px rgba(0, 136, 255, 0.4),
+                        0 0 60px var(--safety-green);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            animation: shield 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .safety-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--clean-white);
+            text-shadow: 0 0 10px var(--clean-white);
+        }
+
+        .brand-name {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--safety-green);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px var(--safety-green);
+            background: linear-gradient(90deg, var(--safety-green), var(--shield-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .safety-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+        }
+
+        /* Safety Shield Icon */
+        .safety-shield {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .shield-icon {
+            font-size: 5rem;
+            color: var(--shield-blue);
+            animation: shield 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px var(--shield-blue));
+            margin-bottom: 1rem;
+        }
+
+        .shield-text {
+            color: var(--safety-green);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-shadow: 0 0 10px var(--safety-green);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--glass-dark);
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            color: var(--neon-cyan);
+            font-size: 0.875rem;
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--neon-glow);
+            box-shadow: 0 -10px 30px rgba(93, 0, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .safety-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .safety-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .page-intro h1 {
+                font-size: 2.2rem;
+            }
+
+            .page-intro {
+                padding: 2rem 1.5rem;
+                margin: 2rem 1rem 3rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+                margin: 3rem auto;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .link-item {
+                width: 200px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Background Image -->
+<div class="background-container">
+    <div class="background-image"></div>
+</div>
+
+<header class="header"> 
+    <nav class="nav-layout">
+        <a href="main.html" class="logo">Cosmos</a>
+        <p class="tagline">Your gateway to space</p>
+
+        <div class="nav-links">
+            <a href="main.html" class="link-item">Home</a>
+            <a href="booking.html" class="link-item">Booking & Trip Planning</a> 
+            <a href="destinations.html" class="link-item">Destinations</a>
+            <a href="training.html" class="link-item">Astronaut Training Information</a>
+            <a href="safety.html" class="link-item safety-link">Safety Regulations</a>
+            <a href="support.html" class="link-item">Customer Support</a>
+        </div>
+    </nav>
+</header>
+
+<main class="main-container">
+
+    <section class="page-intro">
+        <h1>Safety & Regulations</h1>
+        <p>
+            At COSMOS, your safety is our highest priority. We follow stringent protocols, comprehensive medical checks, and internationally certified procedures to ensure every mission is secure, reliable, and worry-free. Our commitment to safety is embedded in every aspect of your journey.
+        </p>
+    </section>
+
+    <div class="safety-shield">
+        <div class="shield-icon">🛡️</div>
+        <div class="shield-text">Maximum Protection Guaranteed</div>
+    </div>
+
+    <section class="safety-grid">
+        <div class="safety-card">
+            <div class="card-icon">🛡️</div>
+            <h2>Safety Protocols</h2>
+            <span class="brand-name">COSMOS Secure</span>
+            <p>All spacecraft and operations follow the most rigorous safety standards through our COSMOS Secure system, ensuring reliable and secure missions with redundant safety systems.</p>
+        </div>
+
+        <div class="safety-card">
+            <div class="card-icon">🚨</div>
+            <h2>Emergency Procedures</h2>
+            <span class="brand-name">SpaceGuard Plan</span>
+            <p>Our SpaceGuard Plan provides clear, step-by-step actions for any in-flight emergency or unexpected situation, keeping passengers safe with automated safety protocols.</p>
+        </div>
+
+        <div class="safety-card">
+            <div class="card-icon">🩺</div>
+            <h2>Medical Screening</h2>
+            <span class="brand-name">HealthCheck Portal</span>
+            <p>Passengers undergo comprehensive medical and fitness evaluations through the HealthCheck Portal to ensure they meet essential health standards for space travel.</p>
+        </div>
+
+        <div class="safety-card">
+            <div class="card-icon">✅</div>
+            <h2>Certifications</h2>
+            <span class="brand-name">AeroCert Verified</span>
+            <p>COSMOS spacecraft and operations are fully certified via AeroCert Verified, meeting and exceeding international aerospace safety and technical benchmarks.</p>
+        </div>
+
+        <div class="safety-card">
+            <div class="card-icon">🏥</div>
+            <h2>Insurance Options</h2>
+            <span class="brand-name">CosmoProtect</span>
+            <p>Flexible travel and health insurance plans are available through CosmoProtect, providing comprehensive coverage for all stages of your mission and beyond.</p>
+        </div>
+
+        <div class="safety-card">
+            <div class="card-icon">🤝</div>
+            <h2>Partnerships</h2>
+            <span class="brand-name">Stellar Alliance</span>
+            <p>We collaborate with top aerospace companies and space agencies through our Stellar Alliance, ensuring world-class safety standards and continuous improvement.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    &copy; 2025 COSMOS Space Tourism Company. Your Gateway to Space.
+</footer>
+
+</body>
+</html>

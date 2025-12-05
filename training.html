@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronaut Training Information - COSMOS</title>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes neon-glow {
+            0%, 100% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple); }
+            50% { text-shadow: 0 0 30px var(--neon-cyan), 0 0 60px var(--cosmic-purple); }
+        }
+        @keyframes pulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px var(--neon-cyan),
+                           0 0 40px rgba(0, 247, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 40px var(--neon-cyan),
+                           0 0 80px rgba(0, 247, 255, 0.6);
+            }
+        }
+        @keyframes astronaut-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(5deg); }
+            50% { transform: translateY(-20px) rotate(0deg); }
+            75% { transform: translateY(-10px) rotate(-5deg); }
+        }
+
+        :root {
+            --deep-space: #0a0a1a;
+            --cosmic-purple: #5d00ff;
+            --neon-cyan: #00f7ff;
+            --stellar-blue: #0077ff;
+            --galaxy-pink: #ff00cc;
+            --training-orange: #ff7700;
+            --clean-white: #ffffff;
+            --glass-dark: rgba(10, 10, 26, 0.85);
+            --neon-glow: rgba(0, 247, 255, 0.3);
+            --card-bg: rgba(10, 10, 26, 0.75);
+            --badge-gold: #ffd700;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--clean-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Image Container */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to bottom, rgba(10, 10, 26, 0.85), rgba(93, 0, 255, 0.15)),
+                url('https://images.unsplash.com/photo-1446776877081-d282a0f896e2?q=80&w=1172&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+        }
+
+        .nav-layout {
+            max-width: 1280px; 
+            margin: 0 auto;
+            padding: 1rem; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: var(--glass-dark);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); /* Safari support */
+            border-bottom-left-radius: 1.5rem; 
+            border-bottom-right-radius: 1.5rem; 
+            box-shadow: 0 10px 30px rgba(93, 0, 255, 0.3),
+                        0 0 50px var(--neon-glow);
+            border: 1px solid var(--neon-glow);
+        }
+        
+        .logo {
+            margin-bottom: 1rem; 
+            font-size: 2.5rem; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            letter-spacing: 0.15em;
+            color: transparent; 
+            background: linear-gradient(135deg, var(--neon-cyan), var(--galaxy-pink));
+            -webkit-background-clip: text; 
+            background-clip: text;
+            text-decoration: none;
+            text-shadow: 0 0 30px var(--neon-glow);
+        }
+
+        .tagline {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            gap: 0.5rem; 
+            padding-bottom: 0.5rem; 
+        }
+        
+        .link-item { 
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; 
+            transition: all 0.3s ease-in-out; 
+            text-decoration: none;
+            color: var(--clean-white);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-glow);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); /* Safari support */
+        }
+
+        .training-link { 
+            color: var(--training-orange); 
+            font-weight: 700; 
+            background: rgba(255, 119, 0, 0.1);
+            border-color: var(--training-orange);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .link-item:hover { 
+            background-color: rgba(0, 247, 255, 0.2); 
+            box-shadow: 0 0 20px var(--neon-cyan);
+            transform: translateY(-2px);
+            color: var(--neon-cyan);
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.9), rgba(255, 119, 0, 0.2));
+            padding: 3rem 2rem;
+            border-radius: 1.5rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); /* Safari support */
+            border: 2px solid var(--training-orange);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                        0 0 60px rgba(255, 119, 0, 0.3),
+                        inset 0 0 60px rgba(255, 119, 0, 0.1);
+            animation: float 8s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-intro h1 {
+            color: var(--training-orange);
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px var(--training-orange), 0 0 40px var(--cosmic-purple);
+            animation: neon-glow 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .page-intro p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        /* Training Cards */
+        .training-steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .training-card {
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.85), rgba(93, 0, 255, 0.15));
+            border: 2px solid var(--neon-glow);
+            border-radius: 1.5rem;
+            padding: 3rem 2.5rem;
+            position: relative;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); /* Safari support */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+            margin-top: 2rem;
+        }
+
+        .training-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--training-orange);
+            box-shadow: 0 15px 40px rgba(255, 119, 0, 0.3),
+                        0 0 60px var(--neon-glow);
+        }
+
+        .training-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--training-orange));
+        }
+
+        /* Step Badge */
+        .step-badge {
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, var(--training-orange), var(--badge-gold));
+            color: var(--deep-space);
+            font-weight: 900;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 0 25px var(--training-orange),
+                        0 0 50px rgba(255, 119, 0, 0.5);
+            z-index: 10;
+            border: 3px solid var(--neon-cyan);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .training-card h2 {
+            text-align: center;
+            color: var(--training-orange);
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px var(--training-orange);
+        }
+
+        .training-card p {
+            text-align: center;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.8;
+        }
+
+        /* Duration Indicator */
+        .duration-indicator {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--stellar-blue));
+            color: var(--deep-space);
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* Astronaut Animation */
+        .astronaut-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .astronaut-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: astronaut-float 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px var(--neon-cyan));
+        }
+
+        .astronaut-text {
+            color: var(--training-orange);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-shadow: 0 0 10px var(--training-orange);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: block;
+            width: fit-content;
+            padding: 1rem 2.5rem;
+            margin: 4rem auto 1rem;
+            background: linear-gradient(135deg, var(--training-orange), var(--badge-gold));
+            color: var(--deep-space);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px var(--training-orange);
+            animation: pulse 2s ease-in-out infinite;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px var(--training-orange), 
+                        0 0 80px rgba(255, 119, 0, 0.6);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--glass-dark);
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            color: var(--neon-cyan);
+            font-size: 0.875rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); /* Safari support */
+            border-top: 1px solid var(--neon-glow);
+            box-shadow: 0 -10px 30px rgba(93, 0, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .training-card {
+                padding: 2.5rem 2rem;
+                margin: 2rem 0.5rem 0 0.5rem;
+            }
+
+            .page-intro h1 {
+                font-size: 2.2rem;
+            }
+
+            .page-intro {
+                padding: 2rem 1.5rem;
+                margin: 2rem 1rem 3rem;
+            }
+
+            .main-container {
+                padding: 0 1rem;
+                margin: 3rem auto;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .link-item {
+                width: 200px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Background Image -->
+<div class="background-container">
+    <div class="background-image"></div>
+</div>
+
+<header class="header"> 
+    <nav class="nav-layout">
+        <a href="main.html" class="logo">Cosmos</a>
+        <p class="tagline">Your gateway to space</p>
+
+        <div class="nav-links">
+            <a href="main.html" class="link-item">Home</a>
+            <a href="booking.html" class="link-item">Booking & Trip Planning</a> 
+            <a href="destinations.html" class="link-item">Destinations</a>
+            <a href="training.html" class="link-item training-link">Astronaut Training Information</a>
+            <a href="safety.html" class="link-item">Safety Regulations</a>
+            <a href="support.html" class="link-item">Customer Support</a>
+        </div>
+    </nav>
+</header>
+
+<main class="main-container">
+
+    <section class="page-intro">
+        <h1>Astronaut Training Program</h1>
+        <p>
+            The COSMOS Astronaut Training Program prepares you for a safe and exciting journey into space. Our comprehensive program helps you adapt to zero gravity, learn spacecraft procedures, and gain confidence for your mission. Train like an astronaut and prepare for the journey of a lifetime.
+        </p>
+    </section>
+
+    <div class="astronaut-container">
+        <div class="astronaut-icon">🧑‍🚀</div>
+        <div class="astronaut-text">Train Like an Astronaut</div>
+    </div>
+
+    <section class="training-steps-container">
+        <div class="training-card">
+            <div class="step-badge">1</div>
+            <h2>Pre-Flight Schedule</h2>
+            <p>
+                Travelers follow a well-structured pre-flight plan that includes mission briefings, safety guidelines, equipment handling, and daily preparation tasks to build confidence before launch. This foundational phase sets the stage for your space journey.
+            </p>
+            <div class="duration-indicator">Duration: 2 Weeks</div>
+        </div>
+
+        <div class="training-card">
+            <div class="step-badge">2</div>
+            <h2>Health & Fitness Requirements</h2>
+            <p>
+                All participants complete essential medical checks and light fitness assessments to ensure their bodies can handle zero-gravity and the physical demands of space travel. Our medical team ensures you're physically prepared for the experience.
+            </p>
+            <div class="duration-indicator">Duration: 3 Days</div>
+        </div>
+
+        <div class="training-card">
+            <div class="step-badge">3</div>
+            <h2>Virtual Training Modules</h2>
+            <p>
+                Interactive VR modules introduce travelers to the spacecraft interior, emergency procedures, communication systems, and mission routines. Experience the spacecraft virtually before you board the real thing.
+            </p>
+            <div class="duration-indicator">Duration: 5 Sessions</div>
+        </div>
+
+        <div class="training-card">
+            <div class="step-badge">4</div>
+            <h2>Simulated Zero-Gravity</h2>
+            <p>
+                Through controlled zero-gravity sessions in our specialized aircraft, travelers learn how to move, float, and coordinate in weightless conditions similar to real space environments. Master weightlessness before your flight.
+            </p>
+            <div class="duration-indicator">Duration: 2 Flights</div>
+        </div>
+
+        <div class="training-card">
+            <div class="step-badge">5</div>
+            <h2>Meet the Instructors</h2>
+            <p>
+                Participants meet and train with certified astronaut instructors who share professional advice, space-travel techniques, and real mission experiences. Learn from those who have been where you're going.
+            </p>
+            <div class="duration-indicator">Duration: Ongoing Support</div>
+        </div>
+    </section>
+
+    <a href="booking.html" class="cta-button">Begin Your Training Journey</a>
+
+</main>
+
+<footer class="footer">
+    &copy; 2025 COSMOS Space Tourism Company. Your Gateway to Space.
+</footer>
+
+</body>
+</html>

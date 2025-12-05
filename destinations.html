@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - COSMOS</title>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes neon-glow {
+            0%, 100% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple); }
+            50% { text-shadow: 0 0 30px var(--neon-cyan), 0 0 60px var(--cosmic-purple); }
+        }
+        @keyframes card-hover {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 25px var(--neon-cyan); }
+            50% { box-shadow: 0 0 40px var(--neon-cyan), 0 0 60px rgba(0, 247, 255, 0.6); }
+        }
+        @keyframes orbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        :root {
+            --deep-space: #0a0a1a;
+            --cosmic-purple: #5d00ff;
+            --neon-cyan: #00f7ff;
+            --stellar-blue: #0077ff;
+            --galaxy-pink: #ff00cc;
+            --clean-white: #ffffff;
+            --glass-dark: rgba(10, 10, 26, 0.85);
+            --neon-glow: rgba(0, 247, 255, 0.3);
+            --card-bg: rgba(10, 10, 26, 0.75);
+            --mars-red: #ff4d4d;
+            --moon-silver: #ccccff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--clean-white);
+            overflow-x: hidden;
+        }
+
+        /* Background Image Container */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to bottom, rgba(10, 10, 26, 0.85), rgba(93, 0, 255, 0.15)),
+                url('https://images.unsplash.com/photo-1446776877081-d282a0f896e2?q=80&w=1172&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+        }
+
+        .nav-layout {
+            max-width: 1280px; 
+            margin: 0 auto;
+            padding: 1rem; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: var(--glass-dark);
+            backdrop-filter: blur(15px); 
+            border-bottom-left-radius: 1.5rem; 
+            border-bottom-right-radius: 1.5rem; 
+            box-shadow: 0 10px 30px rgba(93, 0, 255, 0.3),
+                        0 0 50px var(--neon-glow);
+            border: 1px solid var(--neon-glow);
+        }
+        
+        .logo {
+            margin-bottom: 1rem; 
+            font-size: 2.5rem; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            letter-spacing: 0.15em;
+            color: transparent; 
+            background: linear-gradient(135deg, var(--neon-cyan), var(--galaxy-pink));
+            -webkit-background-clip: text; 
+            background-clip: text;
+            text-decoration: none;
+            text-shadow: 0 0 30px var(--neon-glow);
+        }
+
+        .tagline {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center; 
+            font-size: 0.875rem; 
+            font-weight: 500; 
+            gap: 0.5rem; 
+            padding-bottom: 0.5rem; 
+        }
+        
+        .link-item { 
+            padding: 0.5rem 1rem; 
+            border-radius: 9999px; 
+            transition: all 0.3s ease-in-out; 
+            text-decoration: none;
+            color: var(--clean-white);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-glow);
+            backdrop-filter: blur(5px);
+        }
+
+        .destinations-link { 
+            color: var(--neon-cyan); 
+            font-weight: 700; 
+            background: rgba(0, 247, 255, 0.1);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .link-item:hover { 
+            background-color: rgba(0, 247, 255, 0.2); 
+            box-shadow: 0 0 20px var(--neon-cyan);
+            transform: translateY(-2px);
+            color: var(--neon-cyan);
+        }
+
+        /* Page Content */
+        .section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 3rem;
+            background: linear-gradient(135deg, var(--card-bg), rgba(93, 0, 255, 0.15));
+            border-radius: 1.5rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                        0 0 60px var(--neon-glow),
+                        inset 0 0 60px rgba(93, 0, 255, 0.1);
+            border: 2px solid var(--neon-glow);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .section h1 {
+            font-size: 3rem;
+            color: var(--neon-cyan);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple);
+            animation: neon-glow 3s ease-in-out infinite;
+        }
+
+        .intro-text {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0 1rem;
+        }
+
+        /* Destination Cards */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .destination-card {
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.8), rgba(93, 0, 255, 0.15));
+            border-radius: 1.5rem;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--neon-glow);
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destination-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--galaxy-pink));
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 247, 255, 0.3),
+                        0 0 60px var(--neon-glow);
+            border-color: var(--galaxy-pink);
+        }
+
+        .destination-card:nth-child(1)::before { background: linear-gradient(90deg, var(--neon-cyan), var(--stellar-blue)); }
+        .destination-card:nth-child(2)::before { background: linear-gradient(90deg, var(--galaxy-pink), var(--neon-cyan)); }
+        .destination-card:nth-child(3)::before { background: linear-gradient(90deg, var(--moon-silver), var(--neon-cyan)); }
+        .destination-card:nth-child(4)::before { background: linear-gradient(90deg, var(--neon-cyan), var(--moon-silver)); }
+        .destination-card:nth-child(5)::before { background: linear-gradient(90deg, var(--mars-red), var(--neon-cyan)); }
+
+        .destination-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 1rem;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--neon-glow);
+            box-shadow: 0 0 20px var(--neon-glow);
+            transition: all 0.4s ease;
+        }
+
+        .destination-card:hover .destination-image {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--galaxy-pink);
+        }
+
+        .destination-card h2 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .destination-card p {
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .destination-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--neon-glow);
+        }
+
+        .destination-distance {
+            color: var(--neon-cyan);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .destination-price {
+            color: var(--galaxy-pink);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px var(--galaxy-pink);
+        }
+
+        /* Orbit Animation */
+        .orbit-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin: 4rem auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .orbit {
+            position: absolute;
+            border: 1px dashed var(--neon-glow);
+            border-radius: 50%;
+            animation: orbit 60s linear infinite;
+        }
+
+        .orbit-1 {
+            width: 200px;
+            height: 200px;
+            animation-duration: 40s;
+        }
+
+        .orbit-2 {
+            width: 300px;
+            height: 300px;
+            animation-duration: 60s;
+        }
+
+        .orbit-3 {
+            width: 400px;
+            height: 400px;
+            animation-duration: 80s;
+        }
+
+        .planet {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .planet-1 {
+            background: var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .planet-2 {
+            background: var(--galaxy-pink);
+            box-shadow: 0 0 20px var(--galaxy-pink);
+        }
+
+        .planet-3 {
+            background: var(--mars-red);
+            box-shadow: 0 0 20px var(--mars-red);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: block;
+            width: fit-content;
+            padding: 1rem 2.5rem;
+            margin: 3rem auto 1rem;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--stellar-blue));
+            color: var(--deep-space);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px var(--neon-cyan);
+            animation: pulse 2s ease-in-out infinite;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px var(--neon-cyan), 0 0 80px rgba(0, 247, 255, 0.6);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--glass-dark);
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            color: var(--neon-cyan);
+            font-size: 0.875rem;
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--neon-glow);
+            box-shadow: 0 -10px 30px rgba(93, 0, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .destinations-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+                margin: 2rem 1rem;
+            }
+
+            .section h1 {
+                font-size: 2.2rem;
+            }
+
+            .orbit-container {
+                height: 200px;
+            }
+
+            .orbit-1 { width: 150px; height: 150px; }
+            .orbit-2 { width: 200px; height: 200px; }
+            .orbit-3 { width: 250px; height: 250px; }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .link-item {
+                width: 200px;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Background Image -->
+<div class="background-container">
+    <div class="background-image"></div>
+</div>
+
+<header class="header"> 
+    <nav class="nav-layout">
+        <a href="main.html" class="logo">Cosmos</a>
+        <p class="tagline">Your gateway to space</p>
+
+        <div class="nav-links">
+            <a href="main.html" class="link-item">Home</a>
+            <a href="booking.html" class="link-item">Booking & Trip Planning</a> 
+            <a href="destinations.html" class="link-item destinations-link">Destinations</a>
+            <a href="training.html" class="link-item">Astronaut Training Information</a>
+            <a href="safety.html" class="link-item">Safety Regulations</a>
+            <a href="support.html" class="link-item">Customer Support</a>
+        </div>
+    </nav>
+</header>
+
+<div class="section">
+    <h1>Cosmic Destinations</h1>
+    
+    <p class="intro-text">
+        Explore the most breathtaking locations beyond Earth with COSMOS.
+        Each destination is designed to give travelers a unique and unforgettable space-tourism experience.
+        Journey to the stars and witness the universe like never before.
+    </p>
+
+    <!-- Orbit Animation -->
+    <div class="orbit-container">
+        <div class="orbit orbit-1"></div>
+        <div class="orbit orbit-2"></div>
+        <div class="orbit orbit-3"></div>
+        <div class="planet planet-1"></div>
+        <div class="planet planet-2"></div>
+        <div class="planet planet-3"></div>
+    </div>
+
+    <div class="destinations-grid">
+        <div class="destination-card">
+            <img src="https://plus.unsplash.com/premium_photo-1673473619570-94b3ac8c4aed?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bG93JTIwZWFydGglMjBvcmJpdHxlbnwwfHwwfHx8MA%3D%3D" 
+                alt="Low Earth Orbit View" class="destination-image">
+            <h2>Low Earth Orbit (LEO)</h2>
+            <p>
+                Experience weightlessness, witness sunrise every 90 minutes, and enjoy a stunning view of Earth's curve from our orbital spacecraft. The perfect introduction to space travel.
+            </p>
+            <div class="destination-meta">
+                <span class="destination-distance">400 km from Earth</span>
+                <span class="destination-price">From $250,000</span>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <img src="https://images.unsplash.com/photo-1674616989478-514d5bc6fefd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGx1eGFyeSUyMHNwYWNlJTIwc3RhdGlvbnxlbnwwfHwwfHx8MA%3D%3D" 
+                alt="COSMOS Space Station Interior" class="destination-image">
+            <h2>COSMOS Space Station</h2>
+            <p>
+                Stay aboard our luxury station featuring panoramic windows, floating lounges, and guided spacewalk options for trained passengers. The ultimate space luxury experience.
+            </p>
+            <div class="destination-meta">
+                <span class="destination-distance">450 km altitude</span>
+                <span class="destination-price">From $500,000</span>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <img src="https://images.unsplash.com/photo-1688134497021-3e38605e17c2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGx1bmFyJTIwZmx5YnklMjB2aWV3fGVufDB8fDB8fHww" 
+                alt="Lunar Flyby View" class="destination-image">
+            <h2>Lunar Flyby</h2>
+            <p>
+                Circle the Moon and see its craters, mountains, and far side up close—an experience that brings the beauty of deep space right to your window. Witness Earthrise from lunar orbit.
+            </p>
+            <div class="destination-meta">
+                <span class="destination-distance">384,400 km away</span>
+                <span class="destination-price">From $1.5 million</span>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <img src="https://plus.unsplash.com/premium_photo-1725408043489-4bb5388e21b9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bHVuYXIlMjBvcmJpdCUyMHZpZXd8ZW58MHx8MHx8fDA%3D"
+                alt="Lunar Orbit Retreat" class="destination-image">
+            <h2>Lunar Orbit Retreat</h2>
+            <p>
+                Spend time in stable lunar orbit with exclusive cabins, private observation decks, and expert-led exploration sessions. Extended stays available for true lunar enthusiasts.
+            </p>
+            <div class="destination-meta">
+                <span class="destination-distance">Lunar orbit</span>
+                <span class="destination-price">From $2.5 million</span>
+            </div>
+        </div>
+
+        <div class="destination-card">
+            <img src="https://images.unsplash.com/photo-1698406787348-d0e74fc29118?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Mars Observation Cruise View" class="destination-image">
+            <h2>Mars Observation Cruise</h2>
+            <p>
+                A long-duration mission offering unmatched views of Mars' red surface, ice caps, and canyons from secure orbit. The most ambitious tourist destination in human history.
+            </p>
+            <div class="destination-meta">
+                <span class="destination-distance">225 million km</span>
+                <span class="destination-price">From $10 million</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="booking.html" class="cta-button">Book Your Cosmic Journey</a>
+</div>
+
+<footer class="footer">
+    &copy; 2025 COSMOS Space Tourism Company. Your Gateway to Space.
+</footer>
+
+</body>
+</html>
