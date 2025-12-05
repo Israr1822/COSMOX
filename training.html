@@ -14,20 +14,18 @@
             50% { text-shadow: 0 0 30px var(--neon-cyan), 0 0 60px var(--cosmic-purple); }
         }
         @keyframes pulse {
-            0%, 100% { 
-                box-shadow: 0 0 20px var(--neon-cyan),
-                           0 0 40px rgba(0, 247, 255, 0.3);
-            }
-            50% { 
-                box-shadow: 0 0 40px var(--neon-cyan),
-                           0 0 80px rgba(0, 247, 255, 0.6);
-            }
+            0%, 100% { box-shadow: 0 0 25px var(--neon-cyan); }
+            50% { box-shadow: 0 0 40px var(--neon-cyan), 0 0 60px rgba(0, 247, 255, 0.6); }
         }
         @keyframes astronaut-float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             25% { transform: translateY(-10px) rotate(5deg); }
             50% { transform: translateY(-20px) rotate(0deg); }
             75% { transform: translateY(-10px) rotate(-5deg); }
+        }
+        @keyframes orbit {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         :root {
@@ -58,7 +56,6 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             color: var(--clean-white);
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
         /* Background Image Container */
@@ -100,8 +97,7 @@
             justify-content: center; 
             align-items: center; 
             background-color: var(--glass-dark);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px); /* Safari support */
+            backdrop-filter: blur(15px); 
             border-bottom-left-radius: 1.5rem; 
             border-bottom-right-radius: 1.5rem; 
             box-shadow: 0 10px 30px rgba(93, 0, 255, 0.3),
@@ -152,14 +148,12 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--neon-glow);
             backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px); /* Safari support */
         }
 
         .training-link { 
-            color: var(--training-orange); 
+            color: var(--neon-cyan); 
             font-weight: 700; 
-            background: rgba(255, 119, 0, 0.1);
-            border-color: var(--training-orange);
+            background: rgba(0, 247, 255, 0.1);
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -170,72 +164,130 @@
             color: var(--neon-cyan);
         }
 
-        /* Main Content */
-        .main-container {
-            max-width: 1000px;
-            margin: 4rem auto;
-            padding: 0 1.5rem;
-        }
-
-        .page-intro {
-            text-align: center;
-            margin-bottom: 4rem;
-            background: linear-gradient(135deg, rgba(10, 10, 26, 0.9), rgba(255, 119, 0, 0.2));
-            padding: 3rem 2rem;
+        /* Page Content */
+        .section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 3rem;
+            background: linear-gradient(135deg, var(--card-bg), rgba(93, 0, 255, 0.15));
             border-radius: 1.5rem;
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px); /* Safari support */
-            border: 2px solid var(--training-orange);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
-                        0 0 60px rgba(255, 119, 0, 0.3),
-                        inset 0 0 60px rgba(255, 119, 0, 0.1);
+                        0 0 60px var(--neon-glow),
+                        inset 0 0 60px rgba(93, 0, 255, 0.1);
+            border: 2px solid var(--neon-glow);
             animation: float 8s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
         }
 
-        .page-intro h1 {
-            color: var(--training-orange);
+        .section h1 {
             font-size: 3rem;
+            color: var(--neon-cyan);
+            text-align: center;
             margin-bottom: 1.5rem;
-            text-shadow: 0 0 20px var(--training-orange), 0 0 40px var(--cosmic-purple);
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--cosmic-purple);
             animation: neon-glow 3s ease-in-out infinite;
-            position: relative;
         }
 
-        .page-intro p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            color: rgba(255, 255, 255, 0.9);
+        .intro-text {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 3rem;
             line-height: 1.8;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0 1rem;
         }
 
-        /* Training Cards */
-        .training-steps-container {
+        /* Astronaut Animation */
+        .astronaut-container {
+            text-align: center;
+            margin: 2rem 0 3rem;
+        }
+
+        .astronaut-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: astronaut-float 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px var(--neon-cyan));
+        }
+
+        .astronaut-text {
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* Orbit Animation */
+        .orbit-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            margin: 3rem auto;
             display: flex;
-            flex-direction: column;
-            gap: 3rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .orbit {
+            position: absolute;
+            border: 1px dashed var(--neon-glow);
+            border-radius: 50%;
+            animation: orbit 60s linear infinite;
+        }
+
+        .orbit-1 {
+            width: 150px;
+            height: 150px;
+            animation-duration: 30s;
+        }
+
+        .orbit-2 {
+            width: 250px;
+            height: 250px;
+            animation-duration: 50s;
+        }
+
+        .planet {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .planet-1 {
+            background: var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        .planet-2 {
+            background: var(--stellar-blue);
+            box-shadow: 0 0 20px var(--stellar-blue);
+        }
+
+        /* Training Cards Grid */
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
         }
 
         .training-card {
-            background: linear-gradient(135deg, rgba(10, 10, 26, 0.85), rgba(93, 0, 255, 0.15));
-            border: 2px solid var(--neon-glow);
+            background: linear-gradient(135deg, rgba(10, 10, 26, 0.8), rgba(93, 0, 255, 0.15));
             border-radius: 1.5rem;
-            padding: 3rem 2.5rem;
-            position: relative;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px); /* Safari support */
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--neon-glow);
             transition: all 0.4s ease;
-            margin-top: 2rem;
-        }
-
-        .training-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--training-orange);
-            box-shadow: 0 15px 40px rgba(255, 119, 0, 0.3),
-                        0 0 60px var(--neon-glow);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
         .training-card::before {
@@ -245,18 +297,27 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--training-orange));
+            background: linear-gradient(90deg, var(--neon-cyan), var(--stellar-blue));
         }
+
+        .training-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 247, 255, 0.3),
+                        0 0 60px var(--neon-glow);
+            border-color: var(--galaxy-pink);
+        }
+
+        .training-card:nth-child(1)::before { background: linear-gradient(90deg, var(--neon-cyan), var(--stellar-blue)); }
+        .training-card:nth-child(2)::before { background: linear-gradient(90deg, var(--galaxy-pink), var(--neon-cyan)); }
+        .training-card:nth-child(3)::before { background: linear-gradient(90deg, var(--stellar-blue), var(--neon-cyan)); }
+        .training-card:nth-child(4)::before { background: linear-gradient(90deg, var(--galaxy-pink), var(--stellar-blue)); }
+        .training-card:nth-child(5)::before { background: linear-gradient(90deg, var(--neon-cyan), var(--galaxy-pink)); }
 
         /* Step Badge */
         .step-badge {
-            position: absolute;
-            top: -2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4rem;
-            height: 4rem;
-            background: linear-gradient(135deg, var(--training-orange), var(--badge-gold));
+            width: 3.5rem;
+            height: 3.5rem;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--stellar-blue));
             color: var(--deep-space);
             font-weight: 900;
             font-size: 1.8rem;
@@ -264,32 +325,32 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            box-shadow: 0 0 25px var(--training-orange),
-                        0 0 50px rgba(255, 119, 0, 0.5);
-            z-index: 10;
-            border: 3px solid var(--neon-cyan);
+            box-shadow: 0 0 25px var(--neon-cyan);
+            border: 3px solid var(--galaxy-pink);
+            margin: 0 auto 1.5rem;
             animation: float 3s ease-in-out infinite;
         }
 
         .training-card h2 {
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
             text-align: center;
-            color: var(--training-orange);
-            margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px var(--training-orange);
+            text-shadow: 0 0 10px var(--neon-cyan);
         }
 
         .training-card p {
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
             text-align: center;
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.8;
         }
 
         /* Duration Indicator */
         .duration-indicator {
-            display: inline-block;
+            display: block;
+            text-align: center;
             background: linear-gradient(90deg, var(--neon-cyan), var(--stellar-blue));
             color: var(--deep-space);
             padding: 0.5rem 1.5rem;
@@ -298,28 +359,9 @@
             margin-top: 1rem;
             font-size: 0.9rem;
             box-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        /* Astronaut Animation */
-        .astronaut-container {
-            text-align: center;
-            margin: 3rem 0;
-        }
-
-        .astronaut-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            animation: astronaut-float 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px var(--neon-cyan));
-        }
-
-        .astronaut-text {
-            color: var(--training-orange);
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            text-shadow: 0 0 10px var(--training-orange);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* CTA Button */
@@ -327,8 +369,8 @@
             display: block;
             width: fit-content;
             padding: 1rem 2.5rem;
-            margin: 4rem auto 1rem;
-            background: linear-gradient(135deg, var(--training-orange), var(--badge-gold));
+            margin: 3rem auto 1rem;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--stellar-blue));
             color: var(--deep-space);
             font-weight: 700;
             font-size: 1.1rem;
@@ -336,7 +378,7 @@
             text-decoration: none;
             border-radius: 9999px;
             transition: all 0.3s ease;
-            box-shadow: 0 0 25px var(--training-orange);
+            box-shadow: 0 0 25px var(--neon-cyan);
             animation: pulse 2s ease-in-out infinite;
             border: none;
             cursor: pointer;
@@ -345,8 +387,7 @@
 
         .cta-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 50px var(--training-orange), 
-                        0 0 80px rgba(255, 119, 0, 0.6);
+            box-shadow: 0 0 50px var(--neon-cyan), 0 0 80px rgba(0, 247, 255, 0.6);
         }
 
         /* Footer */
@@ -360,30 +401,35 @@
             color: var(--neon-cyan);
             font-size: 0.875rem;
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px); /* Safari support */
             border-top: 1px solid var(--neon-glow);
             box-shadow: 0 -10px 30px rgba(93, 0, 255, 0.2);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .training-card {
-                padding: 2.5rem 2rem;
-                margin: 2rem 0.5rem 0 0.5rem;
+            .training-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
-            .page-intro h1 {
+            .section {
+                padding: 1.5rem;
+                margin: 2rem 1rem;
+            }
+
+            .section h1 {
                 font-size: 2.2rem;
             }
 
-            .page-intro {
-                padding: 2rem 1.5rem;
-                margin: 2rem 1rem 3rem;
+            .orbit-container {
+                height: 150px;
             }
 
-            .main-container {
-                padding: 0 1rem;
-                margin: 3rem auto;
+            .orbit-1 { width: 100px; height: 100px; }
+            .orbit-2 { width: 150px; height: 150px; }
+
+            .astronaut-icon {
+                font-size: 3.5rem;
             }
 
             .nav-links {
@@ -424,21 +470,27 @@
     </nav>
 </header>
 
-<main class="main-container">
-
-    <section class="page-intro">
-        <h1>Astronaut Training Program</h1>
-        <p>
-            The COSMOS Astronaut Training Program prepares you for a safe and exciting journey into space. Our comprehensive program helps you adapt to zero gravity, learn spacecraft procedures, and gain confidence for your mission. Train like an astronaut and prepare for the journey of a lifetime.
-        </p>
-    </section>
+<div class="section">
+    <h1>Astronaut Training Program</h1>
+    
+    <p class="intro-text">
+        The COSMOS Astronaut Training Program prepares you for a safe and exciting journey into space. Our comprehensive program helps you adapt to zero gravity, learn spacecraft procedures, and gain confidence for your mission. Train like an astronaut and prepare for the journey of a lifetime.
+    </p>
 
     <div class="astronaut-container">
         <div class="astronaut-icon">🧑‍🚀</div>
         <div class="astronaut-text">Train Like an Astronaut</div>
     </div>
 
-    <section class="training-steps-container">
+    <!-- Orbit Animation -->
+    <div class="orbit-container">
+        <div class="orbit orbit-1"></div>
+        <div class="orbit orbit-2"></div>
+        <div class="planet planet-1"></div>
+        <div class="planet planet-2"></div>
+    </div>
+
+    <div class="training-grid">
         <div class="training-card">
             <div class="step-badge">1</div>
             <h2>Pre-Flight Schedule</h2>
@@ -483,11 +535,10 @@
             </p>
             <div class="duration-indicator">Duration: Ongoing Support</div>
         </div>
-    </section>
+    </div>
 
     <a href="booking.html" class="cta-button">Begin Your Training Journey</a>
-
-</main>
+</div>
 
 <footer class="footer">
     &copy; 2025 COSMOS Space Tourism Company. Your Gateway to Space.
